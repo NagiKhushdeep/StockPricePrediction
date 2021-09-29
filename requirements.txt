@@ -4,7 +4,7 @@ pandas
 requests
 numpy
 streamlit
-plotly==2.14
+plotly==5.3.1
 numpy
 holidays
 Cython
