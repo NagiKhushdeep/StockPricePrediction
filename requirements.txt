@@ -4,4 +4,3 @@ matplotlib-inline
 streamlit
 yfinance
 plotly
-
