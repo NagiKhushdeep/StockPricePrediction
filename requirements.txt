@@ -3,4 +3,4 @@ matplotlib
 matplotlib-inline
 streamlit
 yfinance
-plotly
+plotly==2.14
