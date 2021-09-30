@@ -9,7 +9,7 @@ from plotly import graph_objs as go
 START = "2015-01-01"
 TODAY = date.today().strftime("%Y-%m-%d")
 
-st.title('Stock Forecast App')
+st.title('Stock Price Forecasting')
 
 stocks = stocks = ('TATACONSUM.NS','TCS.NS','GRASIM.NS','ONGC.NS','NESTLEIND.NS','COALINDIA.NS','RELIANCE.NS','CIPLA.NS','TATASTEEL.NS','BRITANNIA.NS','MARUTI.NS','TITAN.NS','ITC.NS','BHARTIARTL.NS','NTPC.NS','ULTRACEMCO.NS','INDUSINDBK.NS','WIPRO.NS','LT.NS','TECHM.NS','ICICIBANK.NS','KOTAKBANK.NS','HINDALCO.NS','SHREECEM.NS','HDFCLIFE.NS','BAJAJ-AUTO.NS','HEROMOTOCO.NS','BAJFINANCE.NS','MM.NS','BAJAJFINSV.NS')
 selected_stock = st.selectbox('Select dataset for prediction', stocks)
