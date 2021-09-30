@@ -11,7 +11,7 @@ TODAY = date.today().strftime("%Y-%m-%d")
 
 st.title('Stock Forecast App')
 
-stocks = ('GOOG', 'AAPL', 'MSFT', 'GME','TATACONSUM.NS')
+stocks = stocks = ('TATACONSUM.NS','TCS.NS','GRASIM.NS','ONGC.NS','NESTLEIND.NS','COALINDIA.NS','RELIANCE.NS','CIPLA.NS','TATASTEEL.NS','BRITANNIA.NS','MARUTI.NS','TITAN.NS','ITC.NS','BHARTIARTL.NS','NTPC.NS','ULTRACEMCO.NS','INDUSINDBK.NS','WIPRO.NS','LT.NS','TECHM.NS','ICICIBANK.NS','KOTAKBANK.NS','HINDALCO.NS','SHREECEM.NS','HDFCLIFE.NS','BAJAJ-AUTO.NS','HEROMOTOCO.NS','BAJFINANCE.NS','MM.NS','BAJAJFINSV.NS')
 selected_stock = st.selectbox('Select dataset for prediction', stocks)
 
 n_years = st.slider('Years of prediction:', 1, 4)
