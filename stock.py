@@ -1,36 +1,43 @@
+#importing the required libraries
 import streamlit as st
 from datetime import date
-
 import yfinance as yf
 from fbprophet import Prophet
 from fbprophet.plot import plot_plotly
 from plotly import graph_objs as go
 
-START = "2015-01-01"
-TODAY = date.today().strftime("%Y-%m-%d")
+#defining start date and current date
+start_date = "2015-01-01"
+current_date = date.today().strftime("%Y-%m-%d")
 
+#setting the title of the web application
 st.title('Stock Price Forecasting')
 
-stocks = stocks = ('TATACONSUM.NS','TCS.NS','GRASIM.NS','ONGC.NS','NESTLEIND.NS','COALINDIA.NS','RELIANCE.NS','CIPLA.NS','TATASTEEL.NS','BRITANNIA.NS','MARUTI.NS','TITAN.NS','ITC.NS','BHARTIARTL.NS','NTPC.NS','ULTRACEMCO.NS','INDUSINDBK.NS','WIPRO.NS','LT.NS','TECHM.NS','ICICIBANK.NS','KOTAKBANK.NS','HINDALCO.NS','SHREECEM.NS','HDFCLIFE.NS','BAJAJ-AUTO.NS','HEROMOTOCO.NS','BAJFINANCE.NS','MM.NS','BAJAJFINSV.NS')
+#defining the stock tickers whose price can be predicted
+stocks = ('TATACONSUM.NS','TCS.NS','GRASIM.NS','ONGC.NS','NESTLEIND.NS','COALINDIA.NS','RELIANCE.NS','CIPLA.NS','TATASTEEL.NS','BRITANNIA.NS','MARUTI.NS','TITAN.NS','ITC.NS','BHARTIARTL.NS','NTPC.NS','ULTRACEMCO.NS','INDUSINDBK.NS','WIPRO.NS','LT.NS','TECHM.NS','ICICIBANK.NS','KOTAKBANK.NS','HINDALCO.NS','SHREECEM.NS','HDFCLIFE.NS','BAJAJ-AUTO.NS','HEROMOTOCO.NS','BAJFINANCE.NS','MM.NS','BAJAJFINSV.NS')
+
+#creating a select box to display the above list of stock tickers
 selected_stock = st.selectbox('Select dataset for prediction', stocks)
 
-n_years = st.slider('Years of prediction:', 1, 4)
-period = n_years * 365
+#adding a slider to chose the number of years of prediction
+no_years = st.slider('Years of prediction:', 1, 5)
+period = no_years * 365
 
+#function to load data of the selected stock from yahoo finance using the yfinance library
 @st.cache
 def load_data(ticker):
-    data = yf.download(ticker, START, TODAY)
+    data = yf.download(ticker, start_date, current_date)
     data.reset_index(inplace=True)
     return data
 
-data_load_state = st.text('Loading data...')
+data_load_state = st.text('Please wait...Loading data!') 
 data = load_data(selected_stock)
-data_load_state.text('Loading data... done!')
+data_load_state.text('Data loaded successfully!')
 
 st.subheader('Raw data')
 st.write(data.tail())
 
-# Plot raw data
+#plotting raw data
 def plot_raw_data():
 	fig = go.Figure()
 	fig.add_trace(go.Scatter(x=data['Date'], y=data['Open'], name="stock_open"))
@@ -40,23 +47,23 @@ def plot_raw_data():
 	
 plot_raw_data()
 
-# Predict forecast with Prophet.
+#predict stock prices using the Prophet function of fbprohet library
 df_train = data[['Date','Close']]
 df_train = df_train.rename(columns={"Date": "ds", "Close": "y"})
 
-m = Prophet()
-m.fit(df_train)
-future = m.make_future_dataframe(periods=period)
-forecast = m.predict(future)
+model = Prophet()
+model.fit(df_train)
+future = model.make_future_dataframe(periods=period)
+forecast = model.predict(future)
 
-# Show and plot forecast
+#displaying the forecaste data and plot
 st.subheader('Forecast data')
 st.write(forecast.tail())
     
-st.write(f'Forecast plot for {n_years} years')
-fig1 = plot_plotly(m, forecast)
+st.write(f'Forecast plot for {no_years} years')
+fig1 = plot_plotly(model, forecast)
 st.plotly_chart(fig1)
 
 st.write("Forecast components")
-fig2 = m.plot_components(forecast)
+fig2 = model.plot_components(forecast)
 st.write(fig2)
